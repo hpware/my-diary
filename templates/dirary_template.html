@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 <!----->
-{% block title %} {{title}} {% endblock %}
+{% block title %} {{title}} from {{ year }} {% endblock %}
 
 <!---->
 {% block content%}
-<div>{{ content }}</div>
+<div id="content"></div>
+
+<script type="module">
+    import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+    const markdownContent = `{{ content }}`;
+    document.getElementById("content").innerHTML =
+        marked.parse(markdownContent);
+</script>
 {% endblock %}

@@ -1,0 +1,12 @@
+html,
+body {
+    background-color: #f5fbff;
+}
+
+h1.title {
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    padding-top: 4rem;
+}

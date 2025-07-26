@@ -1,3 +1,5 @@
+import html
+from test.test_bufio import lengths
 from dotenv import load_dotenv
 from flask import Flask, render_template
 
@@ -7,6 +9,11 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/<slug>")
-def diraryPage(slug):
-    return render_template("dirary_template.html", content="# Here is the markdown content yo", title=slug)
+@app.route("/<year>/<slug>")
+def diraryPage(year, slug):
+    try:
+        if len(year) != 4:
+            return render_template("error.html")
+        return render_template("dirary_template.html", content="# Here is the markdown content yo", title=slug, year=year)
+    except:
+        return render_template("error.html")

@@ -1,1 +1,1 @@
-# Just a place where I put my dirarys
+# Just a place where I put my diarys

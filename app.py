@@ -1,7 +1,18 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template
+from apscheduler.schedulers.background import BackgroundScheduler
+import os
 
 load_dotenv()
+
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=60)
+sched.start()
+
 app = Flask(__name__)
 @app.route("/")
 def index():

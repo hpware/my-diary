@@ -3,10 +3,19 @@ from flask import Flask, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import git
-
-
 load_dotenv()
 
+
+# git
+repolink = f"https://github.com/{os.getenv("github_repo")}"
+branch = os.getenv("git_branch")
+if (os.path.isdir("./data") == False ):
+    repo = git.Repo.clone_from(repolink, './data', branch=branch)
+else:
+    repo = git.Repo("./data")
+
+
+# testing
 def sensor():
     """ Function for test purposes. """
     print("Scheduler is alive!")
@@ -15,6 +24,8 @@ sched = BackgroundScheduler(daemon=True)
 sched.add_job(sensor,'interval',minutes=60)
 sched.start()
 
+
+# web service
 app = Flask(__name__)
 @app.route("/")
 def index():

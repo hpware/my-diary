@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // imports
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { marked } from "marked";
 
 // values
@@ -27,12 +27,22 @@ const submitContent = async () => {
     });
     if (!req.ok) {
         requestFailed.value = true;
+        return;
     }
     const res = await req.json();
     if (!res.success) {
         requestFailed.value = true;
+        return;
     }
+    localStorage.removeItem("lastSavedMarkdownData");
 };
+
+onMounted(() => {
+    const lastSavedMarkdownData = localStorage.getItem("lastSavedMarkdownData");
+    if (lastSavedMarkdownData) {
+        markdownText.value = lastSavedMarkdownData;
+    }
+});
 </script>
 <template>
     <div class="flex flex-col">

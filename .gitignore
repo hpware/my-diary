@@ -3,3 +3,7 @@
 .ropeproject
 __pycache__
 dist
+data
+.env
+.env*
+!.env.example

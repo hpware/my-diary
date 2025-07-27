@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 from flask import Flask, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
+import git
+
 
 load_dotenv()
 

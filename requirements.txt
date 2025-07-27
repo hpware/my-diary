@@ -2,3 +2,4 @@ flask
 dotenv
 gunicorn
 apscheduler==3.11.0
+gitpython

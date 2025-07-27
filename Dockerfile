@@ -2,9 +2,6 @@
 FROM oven/bun:latest AS form-frontend-builder
 WORKDIR /frontend
 COPY submit-front/ .
-RUN ls -a
-RUN ls -a ./src
-RUN pwd
 RUN bun install
 RUN bun run build
 
@@ -13,7 +10,10 @@ FROM python:3.11-slim-buster
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN apt update
+RUN apt install git -y
 COPY --from=form-frontend-builder /frontend/dist /app/static/submit_form
 COPY . .
+RUN ls -a
 EXPOSE 5000
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]

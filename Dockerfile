@@ -3,6 +3,7 @@ FROM oven/bun:latest AS form-frontend-builder
 WORKDIR /frontend
 COPY submit-front/ .
 RUN ls -a
+RUN pwd
 RUN bun install
 RUN bun run build
 

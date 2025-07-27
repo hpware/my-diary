@@ -6,5 +6,27 @@
 {% block content%}
 <div>
     <h1 class="title">My diaries</h1>
+    <div class="content" id="content"></div>
 </div>
+<script type="module">
+    const d = document;
+    const contentDiv = d.getElementById("content");
+    const contentArray = {{ contentArray | tojson }};
+    d.addEventListener("DOMContentLoaded", async (event) => {
+      var fct = "";
+      contentArray.map((i) => {
+        console.log(i);
+        fct += applyHTMLtemplate(i)
+      })
+      contentDiv.innerHTML = fct;
+    })
+    function applyHTMLtemplate(data) {
+      return `
+      <a href="/${data.year}/${data.url}">
+        <div class="item">
+            <h3>${data.title}</h3>
+        </div>
+      </a>`
+    }
+</script>
 {% endblock %}

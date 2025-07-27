@@ -1,0 +1,53 @@
+<script setup lang="ts">
+// imports
+import { ref } from "vue";
+import { marked } from "marked";
+
+// values
+const markdownText = ref("");
+const password = ref("");
+const markdownHTML = ref();
+const requestFailed = ref(false);
+const previewContent = () => {
+    console.log(markdownText);
+    markdownHTML.value = marked.parse(markdownText.value);
+};
+
+const submitContent = async () => {
+    requestFailed.value = false;
+    const req = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            markdownText: markdownText,
+            authKey: password,
+        }),
+    });
+    if (!req.ok) {
+        requestFailed.value = true;
+    }
+    const res = await req.json();
+    if (!res.success) {
+        requestFailed.value = true;
+    }
+};
+</script>
+<template>
+    <div class="flex flex-col">
+        <span v-if="requestFailed" style="color: red"
+            >Your request failed!</span
+        >
+        <span>Enter your creds</span>
+        <input type="password" v-model="password" class="border" />
+        <span>Input your content in Markdown!</span>
+        <div class="border">
+            <textarea v-model="markdownText" />
+        </div>
+        <button @click="previewContent" class="button">Preview Content?</button>
+        <button @click="submitContent" class="button">Submit Content</button>
+        <span>Preview</span>
+        <div v-html="markdownHTML"></div>
+    </div>
+</template>

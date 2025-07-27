@@ -16,7 +16,21 @@ sched.start()
 app = Flask(__name__)
 @app.route("/")
 def index():
-    return render_template("index.html")
+    contentArray = [
+        {
+            "year": 2025,
+        "url": "hi",
+        "title": "Hello",
+        "description": "Hello world"
+        },
+        {
+            "year": 2025,
+        "url": "hi",
+        "title": "Hello",
+        "description": "Hello world"
+        }
+    ]
+    return render_template("index.html", contentArray=contentArray)
 
 @app.route("/<year>/<slug>")
 def diraryPage(year, slug):

@@ -40,3 +40,9 @@ def diraryPage(year, slug):
         return render_template("dirary_template.html", content="# Here is the markdown content yo", title=slug, year=year)
     except:
         return render_template("error.html")
+
+@app.route("/api/submit")
+def submitApi():
+    return {
+        "success": True
+    }

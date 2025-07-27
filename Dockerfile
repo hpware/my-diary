@@ -4,7 +4,7 @@ WORKDIR /frontend
 COPY submit-front/package*.json ./
 COPY submit-front/bun.lock* ./
 RUN bun install
-COPY submit-front .
+COPY submit-front/ .
 RUN bun run build
 
 # FLASK APP BUILDER

@@ -1,10 +1,8 @@
 # VITE BUILDER
 FROM oven/bun:latest AS form-frontend-builder
 WORKDIR /frontend
-COPY submit-front/package*.json ./
-COPY submit-front/bun.lock* ./
-RUN bun install
 COPY submit-front/ .
+RUN bun install
 RUN bun run build
 
 # FLASK APP BUILDER

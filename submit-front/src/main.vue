@@ -7,6 +7,7 @@ import { marked } from "marked";
 const markdownText = ref("");
 const password = ref("");
 const markdownHTML = ref();
+const title = ref("");
 const requestFailed = ref(false);
 const previewContent = () => {
     console.log(markdownText);
@@ -15,6 +16,10 @@ const previewContent = () => {
 
 const submitContent = async () => {
     requestFailed.value = false;
+
+    if (!markdownText || !password || !title) {
+        requestFailed.value = true;
+    }
     const req = await fetch("/api/submit", {
         method: "POST",
         headers: {
@@ -23,6 +28,7 @@ const submitContent = async () => {
         body: JSON.stringify({
             markdownText: markdownText,
             authKey: password,
+            title: title,
         }),
     });
     if (!req.ok) {
@@ -51,13 +57,38 @@ onMounted(() => {
         >
         <span>Enter your creds</span>
         <input type="password" v-model="password" class="border" />
+        <span>Title</span>
+        <input type="text" v-model="title" class="border" />
         <span>Input your content in Markdown!</span>
         <div class="border">
-            <textarea v-model="markdownText" />
+            <textarea v-model="markdownText" class="markdowntext" />
         </div>
-        <button @click="previewContent" class="button">Preview Content?</button>
-        <button @click="submitContent" class="button">Submit Content</button>
+        <div class="flex flex-row">
+            <button @click="previewContent" class="button">
+                Preview Content?
+            </button>
+            <button @click="submitContent" class="button">
+                Submit Content
+            </button>
+        </div>
         <span>Preview</span>
         <div v-html="markdownHTML"></div>
     </div>
 </template>
+
+<style>
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.markdowntext {
+    height: 70vh;
+    width: 75%;
+    margin: 20px;
+}
+.flex-row {
+    flex-direction: row;
+}
+</style>

@@ -10,6 +10,7 @@ FROM python:3.11-slim-buster
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN apt update
 RUN apt install git -y
 COPY --from=form-frontend-builder /frontend/dist /app/static/submit_form
 COPY . .

@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import git
@@ -14,6 +14,9 @@ if (os.path.isdir('./data') == False ):
 else:
     repo = git.Repo("./data")
 
+# functions
+def gitPull():
+    print("Pulling from git")
 
 # testing
 def sensor():
@@ -54,8 +57,26 @@ def diraryPage(year, slug):
     except:
         return render_template("error.html")
 
-@app.route("/api/submit")
+@app.route("/api/submit", methods=['POST'])
 def submitApi():
-    return {
-        "success": True
-    }
+    authKey = request.form['authKey']
+    title = request.form['title']
+    markdownText = request.form['markdownText']
+    if (authKey != os.getenv('auth_key')):
+        return {
+            "success": False
+        }
+    if os.path.exists(f'./data/{title}.md'):
+        return {
+            "success": False
+        }
+    try:
+        with open(f'./data/{title}.md', 'w') as file:
+            file.write(f"{markdownText}")
+        return {
+            "success": True
+        }
+    except:
+        return {
+            "success": False
+        }

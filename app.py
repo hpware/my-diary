@@ -7,9 +7,9 @@ load_dotenv()
 
 
 # git
-repolink = f"https://github.com/{os.getenv("github_repo")}"
+repolink = f"https://github.com/{os.getenv('github_repo')}"
 branch = os.getenv("git_branch")
-if (os.path.isdir("./data") == False ):
+if (os.path.isdir('./data') == False ):
     repo = git.Repo.clone_from(repolink, './data', branch=branch)
 else:
     repo = git.Repo("./data")

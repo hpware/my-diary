@@ -6,7 +6,7 @@ RUN bun install
 RUN bun run build
 
 # FLASK APP BUILDER
-FROM python:3.11-slim-buster
+FROM python:3.11-slim-bookworm
 WORKDIR /app
 COPY requirements.txt .
 RUN apt update && \

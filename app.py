@@ -50,11 +50,13 @@ def index():
 
 @app.route("/<year>/<slug>")
 def diraryPage(year, slug):
+    if len(year) != 4 or not year.isdigit():
+        return render_template("error.html")
     try:
-        if len(year) != 4:
-            return render_template("error.html")
-        return render_template("dirary_template.html", content="# Here is the markdown content yo", title=slug, year=year)
-    except:
+        with open(f"./data/{year}/{slug}.md", 'r') as file:
+            content = file.read()
+        return render_template("dirary_template.html", content=content, title=slug, year=year)
+    except FileNotFoundError:
         return render_template("error.html")
 
 @app.route("/api/submit", methods=['POST'])
@@ -71,7 +73,7 @@ def submitApi():
             "success": False
         }
     try:
-        with open(f'./data/{title}.md', 'w') as file:
+        with open(f'./data/{'2025'}/{title}.md', 'w') as file:
             file.write(f"{markdownText}")
         return {
             "success": True
